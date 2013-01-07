@@ -5,7 +5,7 @@
 {% block title %}Glossary{% endblock %}
 {% block extra_head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{{ MEDIA_URL }}glossary.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}glossary.css" />
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
         <h1>Glossary terms</h1>
 		{% cache 500 abc_nav %}
 	        <ul class="letters">
-	            {% for i in a_z %}					
+	            {% for i in a_z %}
 					{% if i|in_list:used_letters %}
 	                	<li{% ifequal i starts_with %} class="current"{% endifequal %}><a href = "?l={{ i }}">{{ i }}</a></li>
 					{% else %}
