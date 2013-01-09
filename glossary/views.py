@@ -35,21 +35,25 @@ def term_list(request, **kwargs):
         terms = terms.filter(title__istartswith=ec['starts_with'])
 
 
-	terms = terms.extra(select={"lower_title": "LOWER(%s.title)" % Term._meta.db_table }).order_by("lower_title")
-	
-    t = Term.objects.all()
-    used_letters = []
-    for i in ec["a_z"]:
-        try:
-            x = t.filter(title__istartswith=i)
-            if x:
-                used_letters.append(i)
-        except:
-            pass
-    
-    
-    return object_list(request, 
-                        queryset=terms, 
+	used_letters = list(set(Term.objects.distinct().extra(
+                    select={'f_letter': "lower(substr(title,1,1))"}
+                     ).values_list('f_letter',flat=True)))
+
+    #import ipdb; ipdb.set_trace()
+
+    # t = Term.objects.all()
+    # used_letters = []
+    # for i in ec["a_z"]:
+    #     try:
+    #         x = t.filter(title__istartswith=i)
+    #         if x:
+    #             used_letters.append(i)
+    #     except:
+    #         pass
+
+
+    return object_list(request,
+                        queryset=terms,
                         extra_context={'ec': ec,
                                         'starts_with': ec['starts_with'],
                                         'a_z': ec['a_z'],
