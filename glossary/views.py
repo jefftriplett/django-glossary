@@ -7,6 +7,7 @@ from django.db import connection, transaction
 
 from glossary.models import Term
 
+
 def term_list(request, **kwargs):
     """
     Return a list of all terms
@@ -34,28 +35,14 @@ def term_list(request, **kwargs):
         ec['starts_with'] = initial
         terms = terms.filter(title__istartswith=ec['starts_with'])
 
-
-	used_letters = list(set(Term.objects.distinct().extra(
-                    select={'f_letter': "lower(substr(title,1,1))"}
-                     ).values_list('f_letter',flat=True)))
-
-    #import ipdb; ipdb.set_trace()
-
-    # t = Term.objects.all()
-    # used_letters = []
-    # for i in ec["a_z"]:
-    #     try:
-    #         x = t.filter(title__istartswith=i)
-    #         if x:
-    #             used_letters.append(i)
-    #     except:
-    #         pass
-
+        used_letters = list(set(Term.objects.distinct().extra(
+            select={'f_letter': "lower(substr(title,1,1))"}
+        ).values_list('f_letter', flat=True)))
 
     return object_list(request,
-                        queryset=terms,
-                        extra_context={'ec': ec,
-                                        'starts_with': ec['starts_with'],
-                                        'a_z': ec['a_z'],
-                                        'used_letters': used_letters},
-                        **kwargs)
+                       queryset=terms,
+                       extra_context={'ec': ec,
+                                      'starts_with': ec['starts_with'],
+                                      'a_z': ec['a_z'],
+                                      'used_letters': used_letters},
+                       **kwargs)
