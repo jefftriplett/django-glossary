@@ -1,9 +1,12 @@
 from django.conf.urls.defaults import *
-from glossary.models import Term
+from .views import TermDetailView, term_list
 
-terms = Term.objects.all()
 
 urlpatterns = patterns('',
-    url(r'^$',                     'glossary.views.term_list', name="glossary-list"),
-    url(r'^(?P<slug>[-\w]+)/$',    'django.views.generic.list_detail.object_detail', {"queryset": terms}, name="glossary-detail"),
+    url(regex=r'^$',
+        view=term_list,
+        name="glossary-list"),
+    url(regex='^(?P<slug>[-\w]+)/$',
+        view=TermDetailView.as_view(),
+        name='glossary-detail'),
 )

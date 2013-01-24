@@ -19,7 +19,7 @@ class Term(models.Model):
 
 
     def __unicode__(self):
-        return unicode(self.title)
+        return self.title
 
 
 class Synonym(models.Model):

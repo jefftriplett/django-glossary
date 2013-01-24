@@ -4,8 +4,12 @@ from django.db.models import Q
 
 from django.views.generic.list_detail import object_list
 from django.db import connection, transaction
-
 from glossary.models import Term
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+
+class TermDetailView(DetailView):
+    model = Term
 
 
 def term_list(request, **kwargs):
