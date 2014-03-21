@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 import string
 
 from django.db.models import Q
@@ -18,7 +20,7 @@ def term_list(request, **kwargs):
 
     """
 
-    ec = {"a_z": string.lowercase}
+    ec = {"a_z": string.uppercase + u"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ"}
 
     terms = Term.objects.all()
 
